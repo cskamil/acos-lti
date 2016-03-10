@@ -1,0 +1,13 @@
+{
+  "name": "acos-lti",
+  "version": "0.1.0",
+  "description": "LTI Communication protocol",
+  "main": "index.js",
+  "scripts": {
+  },
+  "dependencies": {
+    "ims-lti": "2.1.6"
+  },
+  "author": "Teemu Sirkiä",
+  "license": "MIT"
+}
