@@ -1,5 +1,4 @@
-LTI protocol
-=============
+# Acos LTI protocol support
 
 This protocol adds the support for communication between
 learning management systems that support LTI (Moodle, for example)
