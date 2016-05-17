@@ -1,10 +1,9 @@
 {
   "name": "acos-lti",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Acos LTI Communication protocol",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
     "ims-lti": "2.1.6"
   },
