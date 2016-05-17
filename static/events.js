@@ -3,12 +3,12 @@
 
   var ACOS = function() {};
 
-  ACOS.sendEvent = function(event, payload) {
+  ACOS.sendEvent = function(event, payload, cb) {
 
     var protocolData = {
-      "user_id": $('input[name="user_id"]').attr('value'),
-      "lis_outcome_service_url": $('input[name="lis_outcome_service_url"]').attr('value'),
-      "lis_result_sourcedid": $('input[name="lis_result_sourcedid"]').attr('value')
+      'user_id': $('input[name="user_id"]').attr('value'),
+      'lis_outcome_service_url': $('input[name="lis_outcome_service_url"]').attr('value'),
+      'lis_result_sourcedid': $('input[name="lis_result_sourcedid"]').attr('value')
     };
 
     var target = window.location.pathname;
@@ -30,7 +30,11 @@
     if (event === 'log' && window.AcosLogging && AcosLogging.noLogging) {
       return;
     } else {
-      $.post(target + "/event", data);
+      $.post(target + "/event", data).done(function(response) {
+        if (cb) {
+          cb(response.content);
+        }
+      });
     }
 
   };

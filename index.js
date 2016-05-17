@@ -51,7 +51,7 @@ ACOSLTI.initialize = function(req, params, handlers, cb) {
 
 };
 
-ACOSLTI.handleEvent = function(event, payload, req, res, protocolData) {
+ACOSLTI.handleEvent = function(event, payload, req, res, protocolData, responseObj, cb) {
 
   if (event == 'grade') {
 
@@ -67,19 +67,23 @@ ACOSLTI.handleEvent = function(event, payload, req, res, protocolData) {
       outcome.send_replace_result(payload.points / payload.max_points, function(err, result) {
 
         if (!err && result) {
-          res.json({ 'status': 'OK' });
+          res.json({ 'status': 'OK', 'protocol': responseObj.protocol, 'content': responseObj.content });
         } else {
-          res.json({ 'status': 'ERROR', 'message': err });
+          res.json({ 'status': 'ERROR', 'message': err, 'protocol': responseObj.protocol, 'content': responseObj.content });
         }
+
+        cb(event, payload, req, res, protocolData, responseObj);
 
       });
 
     } else {
-      res.json({ 'status': 'ERROR', 'message': 'Invalid LTI parameters' });
+      res.json({ 'status': 'ERROR', 'message': 'Invalid LTI parameters', 'protocol': responseObj.protocol, 'content': responseObj.content });
+      cb(event, payload, req, res, protocolData, responseObj);
     }
 
   } else {
-    res.json({ 'status': 'OK' });
+    res.json({ 'status': 'OK', 'protocol': responseObj.protocol, 'content': responseObj.content });
+    cb(event, payload, req, res, protocolData, responseObj);
   }
 
 
@@ -106,7 +110,7 @@ ACOSLTI.meta = {
   'description': '',
   'author': 'Teemu Sirkiä',
   'license': 'MIT',
-  'version': '0.0.1',
+  'version': '0.2.0',
   'url': ''
 };
 
