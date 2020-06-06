@@ -1,16 +1,24 @@
 {
   "name": "acos-lti",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Acos LTI Communication protocol",
   "main": "index.js",
   "scripts": {},
   "dependencies": {
-    "ims-lti": "2.1.6"
+    "ims-lti": "github:cskamil/ims-lti"
   },
   "author": "Teemu Sirkiä",
+  "contributors": [
+    {
+      "name": "Kamil Akhuseyinoglu"
+    },
+    {
+      "name": "Teemu Sirkiä"
+    }
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/acos-server/acos-lti.git"
+    "url": "https://github.com/cskamil/acos-lti.git"
   }
 }
