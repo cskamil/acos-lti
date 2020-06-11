@@ -1,0 +1,33 @@
+﻿<div>
+    <form method="post" action="/lti/submit_content_item_form" id="assignment_selection">
+        <input type="hidden" name="selected_content"/>
+        <input type="hidden" name="content_item_return_url" value="{{ content_item_return_url }}"/>
+        <input type="hidden" name="content_url_base" value="{{ content_url_base }}"/>
+        {% for key, value in formData %}
+            <input type="hidden" name="{{key}}" value="{{value}}"/>
+        {% endfor %}
+    </form>
+    {% for contentPackage in contentPackages %}
+    <div class="contentPackage col-md-8">
+        <h3 class="packageTitle bg-primary">{{ contentPackage.namespace }}</h3>
+        <div class="contentPackageMain">
+            <p>{{ contentPackage.meta.shortDescription }}</p>              
+            <a href="#" class="js-selectContent btn btn-xs btn-primary">Select</a>
+            <div class="teaserContent">
+                <fieldset>     
+                    <ul>
+                    {% for ex, content in contentPackage.meta.contents %}
+                        <li><input type="radio" name="selected_content" value="{{ ex }}">
+                            <a href="/html/{{ contentPackage.contentTypeNamespace }}/{{ contentPackage.namespace }}/{{ ex }}">
+                                {{ ex }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </fieldset> 
+            </div>
+        </div>
+    </div>
+    {% endfor %}            
+
+<div style="clear: both; display: block;" class="footer">&nbsp;</div>

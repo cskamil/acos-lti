@@ -1,0 +1,19 @@
+﻿<form method="post" action="{{ content_item_return_url }}" id="assignment_selection">
+    <input type="hidden" name="data" value="{{ data }}"/>
+    <input type="hidden" name="lti_message_type" value="ContentItemSelection"/>
+    <input type="hidden" name="lti_version" value="LTI-1p0"/>
+    <input type="hidden" name="content_items" value="{{content_items}}"/>
+    <input type="hidden" name="lti_msg" value="{{ lti_msg }}"/>
+    <input type="hidden" name="oauth_consumer_key" value="{{ oauth_consumer_key }}"/>
+    <input type="hidden" name="oauth_callback" value="about:blank"/>
+    <input type="hidden" name="oauth_nonce" value="{{oauth_nonce}}"/>
+    <input type="hidden" name="oauth_signature_method" value="HMAC-SHA1"/>
+    <input type="hidden" name="oauth_version" value="1.0"/>
+</form>
+
+<script>
+$(document).ready(function(){
+    $('#assignment_selection').submit()
+});
+</script>
+

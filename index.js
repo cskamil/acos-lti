@@ -2,6 +2,7 @@ var http = require('http');
 var util = require('util');
 var lti = require('ims-lti');
 var htmlencode = require('htmlencode').htmlEncode;
+var nj = require('nunjucks');
 
 var ACOSLTI = function() {};
 
@@ -25,15 +26,13 @@ ACOSLTI.addToBody = function(params, req) {
 };
 
 ACOSLTI.initialize = function(req, params, handlers, cb) {
+  var templateDir = __dirname + '/templates/';
+  nj.configure(templateDir, { autoescape: false });
 
   // Initialize the protocol
   var provider = new lti.Provider(ACOSLTI.keys.consumerKey, ACOSLTI.keys.consumerSecret);
   provider.valid_request(req, function(err, isValid) {
-
-    if (isValid) {
-      var result = ACOSLTI.addToHead(params, req);
-      result = result && ACOSLTI.addToBody(params, req);
-    } else {
+    if (!isValid) {
       params.error = 'LTI initialization error.';
     }
 
@@ -41,10 +40,38 @@ ACOSLTI.initialize = function(req, params, handlers, cb) {
 
 
   if (!params.error) {
-    // Initialize the content type (and content package)
-    handlers.contentTypes[req.params.contentType].initialize(req, params, handlers, function() {
-      cb();
-    });
+    ACOSLTI.addToHead(params, req);
+    
+    if(!provider.ext_content) { // To check if the request is ContentItemSelectionRequest => TODO: Could be done better
+      ACOSLTI.addToBody(params, req);
+      // Initialize the content type (and content package)
+      handlers.contentTypes[req.params.contentType].initialize(req, params, handlers, function() {
+        cb();
+      });
+    } else {
+      params.headContent += '<script src="/static/lti/acos-lti-content-selection.js" type="text/javascript"></script>\n'
+
+      params.type = 'content_selection'
+      var url_base = req.protocol + '://' + req.get('host') + '/' + req.params.protocol + '/' + req.params.contentType + '/' + req.params.contentPackage
+    
+      var inner_params = {
+        contentPackages: [],
+        content_url_base: url_base,
+        content_item_return_url: provider.ext_content.content_item_return_url,
+        formData: {
+          oauth_consumer_key: provider.consumer_key
+        }
+      }
+
+      if(provider.ext_content.data && provider.ext_content.data.length > 0) {
+        inner_params.formData.data = provider.ext_content.data
+      }
+
+      inner_params.contentPackages.push(handlers.contentPackages[req.params.contentPackage]);
+
+      params.bodyContent += nj.render('content_selection.html', inner_params)
+      cb()
+    }
   } else {
     cb();
   }
