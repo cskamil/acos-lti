@@ -35,9 +35,7 @@ ACOSLTI.initialize = function(req, params, handlers, cb) {
     if (!isValid) {
       params.error = 'LTI initialization error.';
     }
-
   });
-
 
   if (!params.error) {
     ACOSLTI.addToHead(params, req);
@@ -90,7 +88,7 @@ ACOSLTI.handleEvent = function(event, payload, req, res, protocolData, responseO
         lis_result_sourcedid: protocolData.lis_result_sourcedid
       };
 
-      var outcome = new lti.Extensions.Outcomes.OutcomeService(provider);
+      var outcome = new lti.Extensions.Outcomes.init(provider);
       outcome.send_replace_result(payload.points / payload.max_points, function(err, result) {
 
         if (!err && result) {
