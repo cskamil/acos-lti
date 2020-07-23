@@ -50,7 +50,7 @@ ACOSLTI.initialize = function(req, params, handlers, cb) {
       params.headContent += '<script src="/static/lti/acos-lti-content-selection.js" type="text/javascript"></script>\n'
 
       params.type = 'content_selection'
-      var url_base = req.protocol + '://' + req.get('host') + '/' + req.params.protocol + '/' + req.params.contentType + '/' + req.params.contentPackage
+      var url_base = req.protocol + '://' + req.get('host') + '/' + req.params.protocol
     
       var inner_params = {
         contentPackages: [],

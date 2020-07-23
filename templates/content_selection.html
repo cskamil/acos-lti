@@ -18,7 +18,7 @@
                     <fieldset>     
                         <ul>
                             {% for ex in contentPackage.meta.teaserContent %}
-                            <li><input type="radio" name="selected_content" value="{{ ex }}"/>
+                            <li><input type="radio" name="selected_content" value='["{{ contentPackage.contentTypeNamespace }}","{{ contentPackage.namespace}}","{{ ex }}"]'/>
                                 <a href="/html/{{ contentPackage.contentTypeNamespace }}/{{ contentPackage.namespace }}/{{ ex }}">
                                     {{ ex }}
                                </a>
@@ -32,7 +32,7 @@
                     <fieldset>
                         <ul>        
                         {% for ex, content in contentPackage.meta.contents %}
-                            <li><input type="radio" name="selected_content" value="{{ ex }}"/>
+                            <li><input type="radio" name="selected_content" value='["{{ contentPackage.contentTypeNamespace }}","{{ contentPackage.namespace}}","{{ ex }}"]'/>
                                 <a href="/html/{{ contentPackage.contentTypeNamespace }}/{{ contentPackage.namespace }}/{{ ex }}">
                                     {{ ex }}
                             </a>

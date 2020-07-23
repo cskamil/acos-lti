@@ -2,9 +2,16 @@ $(document).ready(function(){
     var checkboxes = $("input[name='selected_content']")
 
     $('.js-selectContent').click(function(event) {  
-        var selected_content_name = $("input[name='selected_content']:checked").val()
-        $("input[name='selected_content']").val(selected_content_name)
-        $('#assignment_selection').submit()
+      var selected_content = $("input[name='selected_content']:checked").val()
+      var selected_content_data = JSON.parse(selected_content)
+      var selected_content_contentType = selected_content_data[0]
+      var selected_content_contentPackage = selected_content_data[1]
+      var selected_content_name = selected_content_data[2]
+      $("input[name='selected_content']").val(selected_content_name)
+      var content_url_base = $("input[name='content_url_base']").val()
+      var content_url = content_url_base + "/" + selected_content_contentType + "/" + selected_content_contentPackage
+      $("input[name='content_url_base']").val(content_url)
+      $('#assignment_selection').submit()
     }).attr('disabled', !checkboxes.is(":checked"))
 
     checkboxes.click(function() {
