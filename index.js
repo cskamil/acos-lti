@@ -65,7 +65,9 @@ ACOSLTI.initialize = function(req, params, handlers, cb) {
         inner_params.formData.data = provider.ext_content.data
       }
 
-      inner_params.contentPackages.push(handlers.contentPackages[req.params.contentPackage]);
+      for (var contentPackage in handlers.contentPackages) {
+        inner_params.contentPackages.push(handlers.contentPackages[contentPackage]);
+      }
 
       params.bodyContent += nj.render('content_selection.html', inner_params)
       cb()

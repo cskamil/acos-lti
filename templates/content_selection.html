@@ -7,27 +7,43 @@
             <input type="hidden" name="{{key}}" value="{{value}}"/>
         {% endfor %}
     </form>
-    {% for contentPackage in contentPackages %}
-    <div class="contentPackage col-md-8">
-        <h3 class="packageTitle bg-primary">{{ contentPackage.namespace }}</h3>
-        <div class="contentPackageMain">
-            <p>{{ contentPackage.meta.shortDescription }}</p>              
-            <a href="#" class="js-selectContent btn btn-xs btn-primary">Select</a>
-            <div class="teaserContent">
-                <fieldset>     
-                    <ul>
-                    {% for ex, content in contentPackage.meta.contents %}
-                        <li><input type="radio" name="selected_content" value="{{ ex }}">
-                            <a href="/html/{{ contentPackage.contentTypeNamespace }}/{{ contentPackage.namespace }}/{{ ex }}">
-                                {{ ex }}
+    <a href="#" class="js-selectContent btn btn-xs btn-primary">Select Content</a>
+    <div class="container">
+        {% for contentPackage in contentPackages %}
+        <div class="contentPackage col-md-8">
+            <h3 class="packageTitle bg-primary">{{ contentPackage.namespace }}</h3>
+            <div class="contentPackageMain">
+                <p>{{ contentPackage.meta.shortDescription }}</p>              
+                <div class="teaserContent">
+                    <fieldset>     
+                        <ul>
+                            {% for ex in contentPackage.meta.teaserContent %}
+                            <li><input type="radio" name="selected_content" value="{{ ex }}"/>
+                                <a href="/html/{{ contentPackage.contentTypeNamespace }}/{{ contentPackage.namespace }}/{{ ex }}">
+                                    {{ ex }}
+                               </a>
+                           </li>
+                        {% endfor %}
+                        </ul>
+                    </fieldset> 
+                </div>
+                <a href="#" class="js-showContent-selection btn btn-xs btn-primary">Show All</a>
+                <div class="allContent">
+                    <fieldset>
+                        <ul>        
+                        {% for ex, content in contentPackage.meta.contents %}
+                            <li><input type="radio" name="selected_content" value="{{ ex }}"/>
+                                <a href="/html/{{ contentPackage.contentTypeNamespace }}/{{ contentPackage.namespace }}/{{ ex }}">
+                                    {{ ex }}
                             </a>
                         </li>
-                    {% endfor %}
-                    </ul>
-                </fieldset> 
+                        {% endfor %}
+                        </ul>
+                    </fieldset>
+                </div>
             </div>
         </div>
-    </div>
-    {% endfor %}            
+        {% endfor %}  
+    </div>          
 
 <div style="clear: both; display: block;" class="footer">&nbsp;</div>
